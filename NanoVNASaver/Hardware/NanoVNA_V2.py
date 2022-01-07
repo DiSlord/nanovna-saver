@@ -189,7 +189,8 @@ class NanoVNA_V2(VNA):
 
                     pointstodo = pointstodo - pointstoread
             self.serial.timeout = timeout
-
+            # reset USB mode
+            self.serial.write(pack("<BBB", _CMD_WRITE, _ADDR_RAW_SAMPLES_MODE, 2))
             if s21hack:
                 self._sweepdata = self._sweepdata[1:]
 
