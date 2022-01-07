@@ -139,6 +139,9 @@ class NanoVNA_V2(VNA):
             with self.serial.lock:
                 self.serial.write(pack("<Q", 0))
                 sleep(WRITE_SLEEP)
+                # enter to USB not calibrated mode (for get calibrated values need use)
+                #self.serial.write(pack("<BBB", _CMD_WRITE, _ADDR_RAW_SAMPLES_MODE, 0))
+                #sleep(WRITE_SLEEP)
                 # cmd: write register 0x30 to clear FIFO
                 self.serial.write(pack("<BBB",
                                        _CMD_WRITE, _ADDR_VALUES_FIFO, 0))
@@ -190,7 +193,7 @@ class NanoVNA_V2(VNA):
                     pointstodo = pointstodo - pointstoread
             self.serial.timeout = timeout
             # reset USB mode
-            self.serial.write(pack("<BBB", _CMD_WRITE, _ADDR_RAW_SAMPLES_MODE, 2))
+            #self.serial.write(pack("<BBB", _CMD_WRITE, _ADDR_RAW_SAMPLES_MODE, 2))
             if s21hack:
                 self._sweepdata = self._sweepdata[1:]
 
